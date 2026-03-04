@@ -1,25 +1,44 @@
 import translator as tr
-
 t = tr.Translator()
-
-
-while(True):
-
+t.loadDictionary("dictionary.txt")
+txtIn = 0       # Add input control here!
+while txtIn !=4:
     t.printMenu()
-
-    t.loadDictionary("filename.txt")
-
-    txtIn = input()
-
-    # Add input control here!
-
-    if int(txtIn) == 1:
-        print()
+    txtIn=input()
+    while not txtIn.isdigit():
         txtIn = input()
-        pass
+    txtIn = int(txtIn)
+    if int(txtIn) == 1:
+        print("Ok, quale parola devo aggiungere?")
+        p = input()
+        if " " in p:
+            p2 = p.split(" ")
+            if p2[0].isalpha():
+                for i in range(1, len(p2)):
+                    if p2[i].isalpha():
+                        t.handleAdd((p2[0], p2[i]))
+                print("Aggiunta!")
+            else:
+                print("Errore!")
+        else:
+            print("Errore")
     if int(txtIn) == 2:
-        pass
+        print("Ok, quale parola devo cercare?")
+        p = input()
+        trad=t.handleTranslate(p)
+        if trad is None:
+            print("Parola non trovata")
+        else:
+            print(trad)
     if int(txtIn) == 3:
-        pass
+        print("Ok, quale wildCard devo cercare?")
+        p=input()
+        if "?" in p:
+            trad=t.handleWildCard(p)
+            if trad is None:
+                print("Wildcard non trovata")
+            else:
+                print(trad)
     if int(txtIn) == 4:
-        break
+        print("Uscita dal traduttore")
+        exit()
